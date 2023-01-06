@@ -1,0 +1,30 @@
+.imghead {
+    display: block;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .mini {
+    
+    max-width: 75px ;
+    height: 75px;
+  }
+nav {
+  text-align: center;
+}
+.navLink {
+  margin-right: 10px;
+}
+div  {
+  text-align: center;
+}
+table {
+  align-self: center;
+}
+.box {
+  display: flex;
+  flex-wrap: wrap;
+}
+.box>* {
+  flex: 1 1 160px;
+}
