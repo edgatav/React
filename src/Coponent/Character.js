@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import FavoritesButton from './Favori';
 import Episodes from './Episodes';
-
+import Header from './Header';
+import rickandmorty from "./rickandmorty.png";
+import { Link } from 'react-router-dom';
  
 
 
@@ -26,7 +28,14 @@ const Character = ( ) => {
   }, [id]);
  
   return (
-    <div >      
+    
+    <div >  
+      <img  class="imghead" src = {rickandmorty} />
+    <nav>
+      <Link to="/home"  className="navLink">Accueil</Link>
+      <Link to="/home/episode" className="navLink">Episode</Link>
+      <Link to="/home/favori" className="navLink">Favori</Link>
+    </nav>   
       <h4> {character.name}</h4> 
       <p>Status: {character.status}</p>
       <p>Genre: {character.gender}</p>

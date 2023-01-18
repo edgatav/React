@@ -21,7 +21,7 @@ const Characters = ({ characterId }) => {
   }, [characterId]);
 
 
-  var linkpers = "/personnage/" + characterId;
+  var linkpers = "/home/personnage/" + characterId;
   if (characterId == undefined){
     return (
       <div class="box">

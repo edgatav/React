@@ -2,6 +2,9 @@
   import React, { useState, useEffect } from 'react';
   import Cookies from 'universal-cookie';
   import Characters from './Characters';
+import Header from './Header';
+import rickandmorty from "./rickandmorty.png";
+import { Link } from 'react-router-dom';
   const App = () => {
     const [CharactersIds, setCharactersIds] = useState([]);
     const [cookies, setCookies] = useState([]);
@@ -28,7 +31,13 @@
     setCharactersIds(Randchar);
 }, []);
   return (
-    <>
+    <div>
+    <img  class="imghead" src = {rickandmorty} />
+    <nav>
+      <Link to="/home"  className="navLink">Accueil</Link>
+      <Link to="/home/episode" className="navLink">Episode</Link>
+      <Link to="/home/favori" className="navLink">Favori</Link>
+    </nav>
     <h1> Personnages aléatoires</h1>
     <ul>
       {CharactersIds.map(character => (
@@ -40,7 +49,8 @@
     {cookies.map(cookie => (
         <li key={cookie.name}><Characters characterId={cookie.name}/></li>
       ))}
-      </ul></>
+      </ul>
+    </div>
   );     
       
       

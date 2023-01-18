@@ -18,7 +18,7 @@ const Episodes = ({ episodeId }) => {
     fetchData();
   }, [episodeId]);
   
-     var linkpers = "/episode/" + episodeId;
+     var linkpers = "/home/episode/" + episodeId;
   return (
     <div class="box">      
       <h4>{episode.name}</h4>      

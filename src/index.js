@@ -4,11 +4,27 @@ import './index.css';
 import App from './Coponent/App';
 import reportWebVitals from './reportWebVitals';
 import Header from "./Coponent/Header.js";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter , Route , Routes} from 'react-router-dom';
+import HomePage from './Coponent/HomePage';
+import SignUpForm from './Coponent/Inscription';
+import Character from './Coponent/Character';
+import Episode from './Coponent/Episode';
+import EpisodeList from './Coponent/EpisodeListe';
+import Favoris from './Coponent/Favoris';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <Header/>
+    <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/sign" element={<SignUpForm />}/>
+        <Route path="/home" element={<App />} />
+        <Route path="/home/personnage/:id" element={<Character />}/>
+        <Route path="/home/episode/:id" element={<Episode />}/>
+      <Route path="/home/episode" element={<EpisodeList />} />
+      <Route path="/home/favori" element={<Favoris />} />
+      {/* //<Route path="/episode" element={<EpisodeList />} /> */}
+
+    </Routes>
   </BrowserRouter>
 );
 
