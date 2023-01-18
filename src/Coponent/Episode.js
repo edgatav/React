@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import EpisodeCharacters from './EpisodeCharacters';
+import Header from './Header';
 
 const Episode = () => {
   const [episodes, setEpisodes] = useState([]);
@@ -23,6 +24,7 @@ const Episode = () => {
   
   return (
     <div>
+      <Header/>
         <h1>{episodes.name}</h1>
           <p>Episode numéro: {episodes.episode}</p>
           <p>Date de diffusion: {episodes.air_date}</p>
