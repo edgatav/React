@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function HomePage() {
   return (
     <div>
-      <Link to="/inscription">
+      <Link to="/sign">
         <button>Inscription</button>
       </Link>
       <Link to="/connexion">
