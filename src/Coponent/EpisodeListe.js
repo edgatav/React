@@ -36,13 +36,7 @@ const EpisodeList = () => {
   
   return (
     <div>
-      <img  class="imghead" src = {rickandmorty} />
-      <LogoutButton/>
-    <nav>
-      <Link to="/home"  className="navLink">Accueil</Link>
-      <Link to="/home/episode" className="navLink">Episode</Link>
-      <Link to="/home/favori" className="navLink">Favori</Link>
-    </nav>
+      <Header/> 
         {episodes.map(episode => (
           <><h1 key={episode.id}> {episode.name}</h1>
           <p key={episode.id}>Numéro d'episode: {episode.episode}</p>

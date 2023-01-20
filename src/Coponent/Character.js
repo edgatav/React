@@ -30,14 +30,9 @@ const Character = ( ) => {
  
   return (
     
-    <div >  
-      <img  class="imghead" src = {rickandmorty} />
-      <LogoutButton/>
-    <nav>
-      <Link to="/home"  className="navLink">Accueil</Link>
-      <Link to="/home/episode" className="navLink">Episode</Link>
-      <Link to="/home/favori" className="navLink">Favori</Link>
-    </nav>   
+    
+    <div>
+      <Header/> 
       <h4> {character.name}</h4> 
       <p>Status: {character.status}</p>
       <p>Genre: {character.gender}</p>

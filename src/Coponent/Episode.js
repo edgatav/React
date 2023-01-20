@@ -27,13 +27,7 @@ const Episode = () => {
   
   return (
     <div>
-      <img  class="imghead" src = {rickandmorty} />
-      <LogoutButton/>
-    <nav>
-      <Link to="/home"  className="navLink">Accueil</Link>
-      <Link to="/home/episode" className="navLink">Episode</Link>
-      <Link to="/home/favori" className="navLink">Favori</Link>
-    </nav>  
+      <Header/> 
 
         <h1>{episodes.name}</h1>
           <p>Episode numéro: {episodes.episode}</p>

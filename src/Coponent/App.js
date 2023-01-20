@@ -6,10 +6,13 @@ import Header from './Header';
 import rickandmorty from "./rickandmorty.png";
 import { Link } from 'react-router-dom';
 import LogoutButton from './BoutonHeader';
+import { getAuth } from "firebase/auth";
   const App = () => {
     const [CharactersIds, setCharactersIds] = useState([]);
     const [cookies, setCookies] = useState([]);
     const Randchar = [];
+    const [user, setUser] = useState(null);
+  const auth = getAuth();
   
 
     useEffect(() => {
@@ -30,16 +33,13 @@ import LogoutButton from './BoutonHeader';
     }
     
     setCharactersIds(Randchar);
+    return auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
 }, []);
-  return (
+  return user ? (
     <div>
-    <img  class="imghead" src = {rickandmorty} />
-    <LogoutButton/>
-    <nav>
-      <Link to="/home"  className="navLink">Accueil</Link>
-      <Link to="/home/episode" className="navLink">Episode</Link>
-      <Link to="/home/favori" className="navLink">Favori</Link>
-    </nav>
+    <Header/> 
     <h1> Personnages aléatoires</h1>
     <ul>
       {CharactersIds.map(character => (
@@ -53,7 +53,17 @@ import LogoutButton from './BoutonHeader';
       ))}
       </ul>
     </div>
-  );     
+  ) : (
+    <div>
+    <Header/> 
+    <h1> Personnages aléatoires</h1>
+    <ul>
+      {CharactersIds.map(character => (
+      <li key={character}><Characters characterId={character}/></li>
+    ))}
+    </ul>
+    </div>
+  )
       
       
     

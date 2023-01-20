@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from "firebase/auth";
 
@@ -25,8 +25,21 @@ function LogoutButton() {
   <>
   <p>Bonjour, {user.displayName}</p>
   <button onClick={handleLogout}>Déconnexion</button> 
+  <nav>
+      <Link to="/home"  className="navLink">Accueil</Link>
+      <Link to="/home/episode" className="navLink">Episode</Link>
+      <Link to="/home/favori" className="navLink">Favori</Link>
+    </nav> 
   </>
-  ): <button onClick={()=> history('/')}>Identification</button>
+  ): (
+    <>
+  <button onClick={()=> history('/')}>Identification</button>
+  <nav>
+      <Link to="/home"  className="navLink">Accueil</Link>
+      <Link to="/home/episode" className="navLink">Episode</Link>
+    </nav>
+  </>
+  )
 }
 
 export default LogoutButton;

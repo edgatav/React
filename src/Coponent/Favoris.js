@@ -4,11 +4,15 @@ import Cookies from 'universal-cookie';
 import Characters from './Characters';
 import rickandmorty from "./rickandmorty.png";
 import LogoutButton from './BoutonHeader';
+import { getAuth } from "firebase/auth";
+import Header from './Header';
 const Favoris = () => {
   const [favoriteCharactersIds, setFavoriteCharactersIds] = useState([]);
   const cookies = new Cookies();
   const favoriteIds = [];
   const [NotNothing, setNotNothing] = useState("false");
+  const [user, setUser] = useState(null);
+  const auth = getAuth();
   useEffect(() => {
     var j =1;
 
@@ -27,40 +31,42 @@ const Favoris = () => {
       j = j + 1
     }
     setFavoriteCharactersIds(favoriteIds);
+    return auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
     
 }, []);
+
 if (NotNothing === "false"){
-  return (
+  return user ?  (
     <div>
-    <img  class="imghead" src = {rickandmorty} />
-    <LogoutButton/>
-    <nav>
-      <Link to="/home"  className="navLink">Accueil</Link>
-      <Link to="/home/episode" className="navLink">Episode</Link>
-      <Link to="/home/favori" className="navLink">Favori</Link>
-    </nav>
+    <Header/> 
     <h1> Personnages favoris</h1>
     <ul>
      <p> Aucun favoris <Link to="./episode" >liste des épisodes</Link></p>
       </ul></div>
-  );
+  ) : (
+    <div>
+    <Header/> 
+  <p>Non connecter</p>
+  </div>
+  )
 } else {
-return (
+return user ? (
   <div>
- <img  class="imghead" src = {rickandmorty} />
- <LogoutButton/>
-    <nav>
-      <Link to="/home"  className="navLink">Accueil</Link>
-      <Link to="/home/episode" className="navLink">Episode</Link>
-      <Link to="/home/favori" className="navLink">Favori</Link>
-    </nav>
+ <Header/> 
   <h1> Personnages favoris</h1>
   <ul>
    {favoriteCharactersIds.map(character => (
     <li key={character}><Characters characterId={character}/></li>
   ))}
     </ul></div>
-);     
+): (
+  <div>
+  <Header/> 
+<p>Non connecter</p>
+</div>
+)    
     
 };  
   

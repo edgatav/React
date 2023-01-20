@@ -2,16 +2,21 @@ import React from 'react';
 import { useState,useEffect } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import Cookies from 'universal-cookie';
+import { getAuth } from "firebase/auth";
 const FavoritesButton = ({characterId}) => {
   const cookies = new Cookies();
  const now = new Date();
+ const [user, setUser] = useState(null);
+  const auth = getAuth();
     
    
      
       const [isCookieTrue, setIsCookieTrue] = useState( cookies.get(characterId) === "true");
   
-  
+      
+    
   const handleClick = () => {
+    
     
     if (cookies.get(characterId) === undefined) {
       
@@ -31,8 +36,14 @@ const FavoritesButton = ({characterId}) => {
       setIsCookieTrue(true);
       cookies.set(characterId,"true", { creationDate: now.getTime() });
     };
+  
   };
-  return (
+  useEffect(() => {
+    return auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+  }, []);
+  return user ? (
     <button onClick={handleClick}>
       {isCookieTrue ? (
         <FaHeart color="#FF0000" />
@@ -40,7 +51,7 @@ const FavoritesButton = ({characterId}) => {
         <FaHeart color='#542201' />
       )}
     </button>
-  );
+  ): (<p></p>)
 };
 
 export default FavoritesButton;
