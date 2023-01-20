@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import SignUpForm from './src/Inscription';
+import SignUpForm from './Inscription';
 
 describe('SignUpForm', () => {
   test('should not submit form if email and password are invalid', async () => {

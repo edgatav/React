@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './Coponent/App';
 import reportWebVitals from './reportWebVitals';
-import Header from "./Coponent/Header.js";
 import { BrowserRouter , Route , Routes} from 'react-router-dom';
 import HomePage from './Coponent/HomePage';
 import SignUpForm from './Coponent/Inscription';
@@ -11,6 +10,7 @@ import Character from './Coponent/Character';
 import Episode from './Coponent/Episode';
 import EpisodeList from './Coponent/EpisodeListe';
 import Favoris from './Coponent/Favoris';
+import LoginForm from './Coponent/Connexion';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
@@ -22,7 +22,7 @@ root.render(
         <Route path="/home/episode/:id" element={<Episode />}/>
       <Route path="/home/episode" element={<EpisodeList />} />
       <Route path="/home/favori" element={<Favoris />} />
-      {/* //<Route path="/episode" element={<EpisodeList />} /> */}
+      <Route path="/login" element={<LoginForm />} /> 
 
     </Routes>
   </BrowserRouter>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import Characters from './Characters';
 import rickandmorty from "./rickandmorty.png";
-import Header from './Header';
+import LogoutButton from './BoutonHeader';
 const Favoris = () => {
   const [favoriteCharactersIds, setFavoriteCharactersIds] = useState([]);
   const cookies = new Cookies();
@@ -33,6 +33,7 @@ if (NotNothing === "false"){
   return (
     <div>
     <img  class="imghead" src = {rickandmorty} />
+    <LogoutButton/>
     <nav>
       <Link to="/home"  className="navLink">Accueil</Link>
       <Link to="/home/episode" className="navLink">Episode</Link>
@@ -47,6 +48,7 @@ if (NotNothing === "false"){
 return (
   <div>
  <img  class="imghead" src = {rickandmorty} />
+ <LogoutButton/>
     <nav>
       <Link to="/home"  className="navLink">Accueil</Link>
       <Link to="/home/episode" className="navLink">Episode</Link>

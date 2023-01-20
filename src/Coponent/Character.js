@@ -5,6 +5,7 @@ import Episodes from './Episodes';
 import Header from './Header';
 import rickandmorty from "./rickandmorty.png";
 import { Link } from 'react-router-dom';
+import LogoutButton from './BoutonHeader';
  
 
 
@@ -31,6 +32,7 @@ const Character = ( ) => {
     
     <div >  
       <img  class="imghead" src = {rickandmorty} />
+      <LogoutButton/>
     <nav>
       <Link to="/home"  className="navLink">Accueil</Link>
       <Link to="/home/episode" className="navLink">Episode</Link>

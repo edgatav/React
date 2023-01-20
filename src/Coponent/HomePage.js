@@ -6,7 +6,7 @@ function HomePage() {
       <Link to="/sign">
         <button>Inscription</button>
       </Link>
-      <Link to="/connexion">
+      <Link to="/login">
         <button>Connexion</button>
       </Link>
       <Link to="/home">
