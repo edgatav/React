@@ -1,74 +1,74 @@
 
-  import React, { useState, useEffect } from 'react';
-  import Cookies from 'universal-cookie';
-  import Characters from './Characters';
-import Header from './Header';
-import rickandmorty from "./rickandmorty.png";
-import { Link } from 'react-router-dom';
-import LogoutButton from './BoutonHeader';
-import { getAuth } from "firebase/auth";
-  const App = () => {
-    const [CharactersIds, setCharactersIds] = useState([]);
-    const [cookies, setCookies] = useState([]);
-    const Randchar = [];
-    const [user, setUser] = useState(null);
-  const auth = getAuth();
-  
-
-    useEffect(() => {
-      const fetchCookies = () => {
-        const allCookies = new Cookies().getAll();
-        const sortedCookies = Object.entries(allCookies)
-          .map(([name, value]) => ({ name, value, creationDate: new Cookies().get(name, { doNotParse: true }).creationDate }))
-          .sort((a, b) => a.creationDate - b.creationDate);
-
-        const trueCookies = sortedCookies.filter(cookie => cookie.value === 'true');
-        const lastFiveCookies = trueCookies.slice(-5);
-        setCookies(lastFiveCookies);
-      };
-  
-      fetchCookies();
-    for (let i = 0; i < 5; i++){
-        Randchar.push(Math.ceil(Math.random()*826));
-    }
-    
-    setCharactersIds(Randchar);
-    return auth.onAuthStateChanged((user) => {
-      setUser(user);
-    });
-}, []);
-  return user ? (
-    <div>
-    <Header/> 
-    <h1> Personnages aléatoires</h1>
-    <ul>
-      {CharactersIds.map(character => (
-      <li key={character}><Characters characterId={character}/></li>
-    ))}
-    </ul>
-    <h1> Personnages favoris</h1>
-    <ul>
-    {cookies.map(cookie => (
-        <li key={cookie.name}><Characters characterId={cookie.name}/></li>
-      ))}
-      </ul>
-    </div>
-  ) : (
-    <div>
-    <Header/> 
-    <h1> Personnages aléatoires</h1>
-    <ul>
-      {CharactersIds.map(character => (
-      <li key={character}><Characters characterId={character}/></li>
-    ))}
-    </ul>
-    </div>
-  )
-      
-      
-    
-  };
-  function shuffle(array) {
-    array.sort(() => Math.random() - 0.5);
-  }
-export default App;
+ import React, { useState, useEffect } from 'react';
+ import Characters from './Characters';
+ import Header from './Header';
+ import { getAuth } from "firebase/auth";
+ import { doc, getDoc } from 'firebase/firestore';
+ import { getFirestore } from 'firebase/firestore';
+ 
+ const App = () => {
+   const [randomCharactersIds, setRandomCharactersIds] = useState([]);
+   const [favoriteCharactersIds, setFavoriteCharactersIds] = useState([]);
+   const auth = getAuth();
+   const db = getFirestore();
+ 
+   useEffect(() => {
+     const fetchFavorites = async () => {
+       const docSnap = await getDoc(doc(db, "favorite", auth.currentUser.uid));
+       if (docSnap.exists) {
+         const favoriteIds = [];
+         for (const key in docSnap.data()) {
+          if (docSnap.data()[key]) {
+            favoriteIds.push({ id: key, timeStamp: docSnap.data()[key].timeStamp });
+          }
+          }
+         favoriteIds.sort((a, b) => b.timeStamp - a.timeStamp);
+         const lastFiveFavoriteIds = favoriteIds.slice(0, 5).map(id => parseInt(id.id, 10));
+         setFavoriteCharactersIds(lastFiveFavoriteIds);
+       } else {
+         console.log("No such document!");
+       }
+     };
+ 
+     const generateRandomIds = () => {
+       const Randchar = [];
+       for (let i = 0; i < 5; i++) {
+         Randchar.push(Math.ceil(Math.random() * 826));
+       }
+       setRandomCharactersIds(Randchar);
+     };
+ 
+     fetchFavorites();
+     generateRandomIds();
+   }, []);
+ 
+   return auth.currentUser ? (
+     <div>
+       <Header />
+       <h1>Personnages aléatoires</h1>
+       <ul>
+         {randomCharactersIds.map(character => (
+           <li key={character}><Characters characterId={character} /></li>
+         ))}
+       </ul>
+       <h1>Personnages favoris</h1>
+       <ul>
+         {favoriteCharactersIds.map(favorite => (
+           <li key={favorite}><Characters characterId={favorite} /></li>
+         ))}
+       </ul>
+     </div>
+   ) : (
+     <div>
+       <Header />
+       <h1>Personnages aléatoires</h1>
+       <ul>
+         {randomCharactersIds.map(character => (
+           <li key={character}><Characters characterId={character} /></li>
+         ))}
+       </ul>
+     </div>
+   );
+ };
+ 
+ export default App;

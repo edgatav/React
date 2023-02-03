@@ -1,57 +1,60 @@
-import React from 'react';
-import { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaHeart } from 'react-icons/fa';
-import Cookies from 'universal-cookie';
-import { getAuth } from "firebase/auth";
-const FavoritesButton = ({characterId}) => {
-  const cookies = new Cookies();
- const now = new Date();
- const [user, setUser] = useState(null);
+import { getAuth } from 'firebase/auth';
+import { getDoc,getDocs, getFirestore } from 'firebase/firestore';
+import { collection , ref , setDoc, doc,updateDoc, get} from 'firebase/firestore';
+const FavoritesButton = ({ characterId }) => {
+  const [user, setUser] = useState(null);
+  const [isFavorited, setIsFavorited] = useState(false);
   const auth = getAuth();
-    
-   
-     
-      const [isCookieTrue, setIsCookieTrue] = useState( cookies.get(characterId) === "true");
-  
-      
-    
-  const handleClick = () => {
-    
-    
-    if (cookies.get(characterId) === undefined) {
-      
-    
-      if (cookies.get('number') === undefined) {
-      cookies.set('number',"1");
-      }else {
-        var nomb =  Number(cookies.get('number')) + 1;
-        cookies.set('number', nomb.toString(), { creationDate: now.getTime() });
+  const db = getFirestore();
+  //const querySnapshot = getDoc(doc(db, "favorite",auth.currentUser.uid));
+  const id = [];
+    useEffect(() => {
+    return auth.onAuthStateChanged( (user) => {
+      if (user) {
+        setUser(user);
+        getDoc(doc(db, "favorite", auth.currentUser.uid)).then(docSnap => {
+          if (docSnap.exists()) {
+           setIsFavorited(docSnap.data()[characterId]);
+          } else {
+            console.log("No such document!");
+          }
+        })
+      } else {
+        setUser(null);
       }
-    
-  };
-    if (cookies.get(characterId) == "true") {
-      cookies.set(characterId,"false", { creationDate: now.getTime() });
-      setIsCookieTrue(false);
-    } else {
-      setIsCookieTrue(true);
-      cookies.set(characterId,"true", { creationDate: now.getTime() });
-    };
-  
-  };
-  useEffect(() => {
-    return auth.onAuthStateChanged((user) => {
-      setUser(user);
     });
   }, []);
+
+  const handleClick = () => {
+    if (user) {
+      if (isFavorited) {
+        setIsFavorited(false);
+        updateDoc(doc(db, "favorite", auth.currentUser.uid), {
+        [characterId]:false
+        });
+      } else {
+        setIsFavorited(true);
+        updateDoc(doc(db, "favorite", auth.currentUser.uid), {
+          [characterId]:true
+        });
+        
+      }
+    }
+  };
+
   return user ? (
     <button onClick={handleClick}>
-      {isCookieTrue ? (
+      {isFavorited ? (
         <FaHeart color="#FF0000" />
       ) : (
-        <FaHeart color='#542201' />
+        <FaHeart color="#542201" />
       )}
     </button>
-  ): (<p></p>)
+  ) : (
+    <p></p>
+  );
 };
 
 export default FavoritesButton;

@@ -1,26 +1,18 @@
 
 import {useNavigate } from "react-router-dom";
-import {initializeApp} from "firebase/app";
+
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
-
+import { doc, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { useState } from "react";
-const config = {
-   apiKey: "AIzaSyB90S8Bxjj6HR0M6dGLg1FFbY2BRGBDsyU",
-  authDomain: "react-63d6e.firebaseapp.com",
-  projectId: "react-63d6e",
-  storageBucket: "react-63d6e.appspot.com",
-  messagingSenderId: "67323651346",
-  appId: "1:67323651346:web:cef8ea5548289e6a33bfcb",
-  measurementId: "G-ZRWRHNVTR6"
-};
-initializeApp(config);
 
 function SignUpForm() {
     const auth = getAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const db = getFirestore();
     let history =useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -36,6 +28,9 @@ function SignUpForm() {
     setError(null);
     createUserWithEmailAndPassword(auth,email, password)
       .then(() => {
+        setDoc(doc(db, "favorite", auth.currentUser.uid), {
+          1: false
+        });
         signInWithEmailAndPassword(auth,email, password); 
         history("/home");
       })

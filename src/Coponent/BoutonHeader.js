@@ -23,7 +23,7 @@ function LogoutButton() {
 
   return user ? (
   <>
-  <p>Bonjour, {user.displayName}</p>
+  <p>Bonjour !</p>
   <button onClick={handleLogout}>Déconnexion</button> 
   <nav>
       <Link to="/home"  className="navLink">Accueil</Link>

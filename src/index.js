@@ -10,8 +10,11 @@ import Character from './Coponent/Character';
 import Episode from './Coponent/Episode';
 import EpisodeList from './Coponent/EpisodeListe';
 import Favoris from './Coponent/Favoris';
+import { db } from './firebase';
 import LoginForm from './Coponent/Connexion';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const base = db;
 root.render(
   <BrowserRouter>
     <Routes>
