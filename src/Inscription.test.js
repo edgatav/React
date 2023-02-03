@@ -47,6 +47,7 @@ describe('handleSubmit', () => {
 
   it('should set error if there is a problem creating or signing in the user', async () => {
     createUserWithEmailAndPassword.mockRejectedValueOnce({ message: 'Error' });
+    signInWithEmailAndPassword.mockRejectedValueOnce({ message: 'Error' });
 
     await handleSubmit({ preventDefault: jest.fn() }, auth, 'valid@email.com', 'password123', setError, navigate, db);
 

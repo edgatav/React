@@ -4,7 +4,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { doc, setDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { useState } from "react";
-import { db } from "../firebase";
+
 
 export const handleSubmit = (event, auth, email, password, setError, db, history) => {
   event.preventDefault();
@@ -32,6 +32,7 @@ export const handleSubmit = (event, auth, email, password, setError, db, history
 };
 
 function SignUpForm() {
+  const db = getFirestore();
   const auth = getAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
